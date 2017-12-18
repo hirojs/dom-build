@@ -73,6 +73,10 @@ function append(el, items, startOffset) {
                             el.style[prop] = propVal;
                         }   
                     }
+                } else if (k === 'properties' && typeof v === 'object') {
+                    for (var prop in v) {
+                        el[prop] = v[prop];
+                    }
                 } else {
                     el.setAttribute(k, v);
                 }

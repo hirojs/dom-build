@@ -2,10 +2,12 @@ var d = require('..');
 
 window.init = function() {
   
+  var foo;
   var ui = d('#root.a.b.c',
     "This is a text node", d('br'),
     "This is another text node", d('br'),
-    d('span',
+    foo = d('span',
+      { properties: { a: 123 } },
       d('%text',
         'This is an explicit text node; it will be returned.',
         ' Multiple strings ',
@@ -28,5 +30,6 @@ window.init = function() {
   document.body.appendChild(ui);
 
   console.log(ui);
+  console.log(foo.a, typeof foo.a);
 
 }
