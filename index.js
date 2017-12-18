@@ -1,5 +1,3 @@
-module.exports = dombuild;
-
 const DEFAULT_UNITS = {
     fontSize            : 'px',
 
@@ -36,14 +34,8 @@ const DEFAULT_UNITS = {
     borderLeftWidth     : 'px'
 };
 
-function dombuild(tag) {
-    return builder(arguments);
-}
-
-function builder(args) {
-    var el = createElement(args[0]);
-    append(el, args, 1);
-    return el;
+module.exports = function dombuild(tag) {
+    return append(createElement(tag), arguments, 1);
 }
 
 function append(el, items, startOffset) {
@@ -56,7 +48,7 @@ function append(el, items, startOffset) {
             if (el.nodeType === 1) {
                 el.appendChild(document.createTextNode(item));    
             } else if (el.nodeType === 3) {
-                el.nodeValue += item;
+                el.appendData(item);
             }
         } else if (Array.isArray(item)) {
             append(el, item, 0);
@@ -87,6 +79,7 @@ function append(el, items, startOffset) {
             }
         }
     }
+    return el;
 }
 
 function createElement(tag) {
@@ -97,7 +90,7 @@ function createElement(tag) {
             if (m[2]) el.id = m[2].substr(1);
             if (m[3]) el.className = m[3].replace(/\./g, ' ').trim();
             return el;
-        } else if ((m = /^%text$/.exec(tag))) {
+        } else if (tag === '%text') {
             return document.createTextNode('');
         }
     }
