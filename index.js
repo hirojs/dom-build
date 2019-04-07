@@ -77,6 +77,8 @@ function append(el, items, startOffset) {
                     for (var prop in v) {
                         el[prop] = v[prop];
                     }
+                } else if (k === 'innerHTML') {
+                    el.innerHTML = v;
                 } else {
                     el.setAttribute(k, v);
                 }
