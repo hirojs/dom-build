@@ -79,7 +79,9 @@ function append(el, items, startOffset) {
                     }
                 } else if (k === 'innerHTML') {
                     el.innerHTML = v;
-                } else {
+                } else if (v === true) {
+                    el.setAttribute(k, '');
+                } else if (v !== false) {
                     el.setAttribute(k, v);
                 }
             }
