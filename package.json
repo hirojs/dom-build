@@ -1,6 +1,6 @@
 {
   "name": "@hirojs/dom-build",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Build DOM trees in Javascript",
   "main": "index.js",
   "directories": {
