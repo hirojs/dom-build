@@ -4,6 +4,13 @@
   <head>
     <title>dom-build</title>
     <script src='bundle.js'></script>
+    <style>
+      #root { background: cyan; padding: 10px; }
+      .a { border-width: 5px; }
+      .b { border-color: green; }
+      .c { border-style: solid; }
+      .data-indicator:after { display: inline; content: attr(data-test); }
+    </style>
   </head>
   <body onload='init();'>
   </body>

@@ -38,9 +38,46 @@ module.exports = function dombuild(tag) {
     return append(createElement(tag), arguments, 1);
 }
 
+function setAttribute(el, k, v) {
+    if (v === true) {
+        el.setAttribute(k, '');
+    } else if (v !== false) {
+        el.setAttribute(k, v);
+    }
+}
+
+const setters = {
+    style(el, v) {
+        if (typeof v === 'string') {
+            el.style.cssText = v;
+        } else {
+            for (let prop in v) {
+                let pv = v[prop];
+                if (typeof pv === 'number' && DEFAULT_UNITS[prop]) {
+                    pv += DEFAULT_UNITS[prop];
+                }
+                el.style[prop] = pv;
+            }
+        }
+    },
+    properties(el, v) {
+        for (let prop in v) {
+            el[prop] = v[prop];
+        }
+    },
+    innerHTML(el, v) {
+        el.innerHTML = v;
+    },
+    data(el, v) {
+        for (let prop in v) {
+            setAttribute(el, `data-${prop}`, v[prop]);
+        }
+    }
+};
+
 function append(el, items, startOffset) {
-    for (var i = startOffset, len = items.length; i < len; ++i) {
-        var item = items[i];
+    for (let i = startOffset, len = items.length; i < len; ++i) {
+        let item = items[i];
         while (typeof item === 'function') {
             item = item();
         }
@@ -57,32 +94,14 @@ function append(el, items, startOffset) {
         } else if (item.nodeType) {
             el.appendChild(item);
         } else {
-            for (var k in item) {
-                var v = item[k];
-                if (typeof v === 'function' && k[0] === 'o' && k[1] === 'n') {
+            for (let k in item) {
+                const v = item[k];
+                if (setters[k]) {
+                    setters[k](el, v);
+                } else if (typeof v === 'function' && k[0] === 'o' && k[1] === 'n') {
                     el.addEventListener(k.substr(2), v);
-                } else if (k === 'style') {
-                    if (typeof v === 'string') {
-                        el.style.cssText = v;
-                    } else {
-                        for (var prop in v) {
-                            var propVal = v[prop];
-                            if (typeof propVal === 'number' && DEFAULT_UNITS[prop]) {
-                                propVal += DEFAULT_UNITS[prop];
-                            }
-                            el.style[prop] = propVal;
-                        }   
-                    }
-                } else if (k === 'properties' && typeof v === 'object') {
-                    for (var prop in v) {
-                        el[prop] = v[prop];
-                    }
-                } else if (k === 'innerHTML') {
-                    el.innerHTML = v;
-                } else if (v === true) {
-                    el.setAttribute(k, '');
-                } else if (v !== false) {
-                    el.setAttribute(k, v);
+                } else {
+                    setAttribute(el, k, v);
                 }
             }
         }
