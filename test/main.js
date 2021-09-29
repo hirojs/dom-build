@@ -26,7 +26,7 @@ window.init = function() {
     ),
     d("div", {style: {width: 100, height: 100, backgroundColor: 'red'}}, 0, null, void 0, false),
     d("div", {innerHTML: '<b>HERE IS <i>SOME RAW</i> HTML</b>'}),
-    d(".data-indicator", {data: {test: 100}}, 'the data value is:')
+    d(".data-indicator", {data: {test: 100, json:{foo: "bar"}}}, 'the data value is:')
   );
 
   document.body.appendChild(ui);

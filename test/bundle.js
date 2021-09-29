@@ -42,6 +42,8 @@ module.exports = function dombuild(tag) {
 function setAttribute(el, k, v) {
     if (v === true) {
         el.setAttribute(k, '');
+    } else if (typeof v === 'object') {
+        el.setAttribute(k, JSON.stringify(v));
     } else if (v !== false) {
         el.setAttribute(k, v);
     }
@@ -153,7 +155,7 @@ window.init = function() {
     ),
     d("div", {style: {width: 100, height: 100, backgroundColor: 'red'}}, 0, null, void 0, false),
     d("div", {innerHTML: '<b>HERE IS <i>SOME RAW</i> HTML</b>'}),
-    d(".data-indicator", {data: {test: 100}}, 'the data value is:')
+    d(".data-indicator", {data: {test: 100, json:{foo: "bar"}}}, 'the data value is:')
   );
 
   document.body.appendChild(ui);

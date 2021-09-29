@@ -41,6 +41,8 @@ module.exports = function dombuild(tag) {
 function setAttribute(el, k, v) {
     if (v === true) {
         el.setAttribute(k, '');
+    } else if (typeof v === 'object') {
+        el.setAttribute(k, JSON.stringify(v));
     } else if (v !== false) {
         el.setAttribute(k, v);
     }
